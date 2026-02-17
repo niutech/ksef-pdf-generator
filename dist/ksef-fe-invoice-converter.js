@@ -46774,7 +46774,7 @@ function Po(a) {
     const k = new FileReader();
     k.onload = function(CA) {
       try {
-        const pA = CA.target?.result, Q = La(Lw.xml2js(pA, { compact: !0 }));
+        const pA = CA.target?.result, Q = La(Lw.xml2js(pA, { compact: !0, cdataKey: "_text" }));
         G(Q);
       } catch (pA) {
         J(pA);
