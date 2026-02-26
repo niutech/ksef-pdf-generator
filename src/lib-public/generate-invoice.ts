@@ -42,18 +42,18 @@ export async function generateInvoice(
 //        pdf = generateFA2((xml as any).Faktura as Faktura2, additionalData);
 //        break;
 //      case 'FA (3)':
-    pdf = generateFA3((xml as any).Faktura as Faktura3, additionalData, dataUri, file.name);
+    pdf = generateFA3((xml as any).Faktura as Faktura3, additionalData, dataUri, file.name, file.lastModified);
 //        break;
 //    }
     switch (formatType) {
       case 'blob':
-        pdf.getBlob((blob: Blob): void => {
+        pdf.getBlob().then((blob: Blob): void => {
           resolve(blob);
         });
         break;
       case 'base64':
       default:
-        pdf.getBase64((base64: string): void => {
+        pdf.getBase64().then((base64: string): void => {
           resolve(base64);
         });
     }
