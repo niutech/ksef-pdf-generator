@@ -1,4 +1,4 @@
-import { Content, ContentTable, TableCell } from 'pdfmake/interfaces';
+import { Content, ContentTable } from 'pdfmake/interfaces';
 import {
   createHeader,
   createSection,
@@ -47,12 +47,12 @@ export function generatePodsumowanieStawekPodatkuVat(faktura: Faktura): Content[
     hasValue(faktura.Fa?.P_14_3W) ||
     hasValue(faktura.Fa?.P_14_4W);
 
-  let tableBody: TableCell[] = [];
+  let tableBody: Content[][] = [];
   const table: ContentTable = {
     table: {
       headerRows: 1,
       widths: [],
-      body: [] as TableCell[][],
+      body: [] as Content[][],
     },
     layout: DEFAULT_TABLE_LAYOUT,
   };
@@ -95,7 +95,7 @@ export function generatePodsumowanieStawekPodatkuVat(faktura: Faktura): Content[
     tableBody = summary.map((item: TaxSummaryTypes) => {
       const data = [];
 
-      data.push(item.no);
+      data.push(item.no ?? '');
       if (AnyP13P14_5Diff0) {
         if (item.taxRateString) {
           data.push(item.taxRateString);
@@ -113,7 +113,7 @@ export function generatePodsumowanieStawekPodatkuVat(faktura: Faktura): Content[
       if (AnyP13P14_5Diff0) {
         data.push(formatText(item.tax, FormatTyp.Currency));
       } else if (hasValue(faktura.Fa?.P_14_5)) {
-        data.push(getValue(faktura.Fa?.P_14_5));
+        data.push(getValue(faktura.Fa?.P_14_5) ?? '');
       }
       if (AnyP13) {
         data.push(formatText(item.gross, FormatTyp.Currency));
@@ -124,7 +124,7 @@ export function generatePodsumowanieStawekPodatkuVat(faktura: Faktura): Content[
       return data;
     });
   }
-  table.table.body = [[...definedHeader], ...tableBody] as TableCell[][];
+  table.table.body = [[...definedHeader], ...tableBody] as Content[][];
   table.table.widths = [...widths] as never[];
 
   return tableBody.length
