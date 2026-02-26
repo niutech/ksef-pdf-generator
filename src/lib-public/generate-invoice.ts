@@ -25,7 +25,12 @@ export async function generateInvoice(
 ): Promise<FormatTypeResult> {
   const xml: unknown = await parseXML(file);
   const wersja: any = (xml as any)?.Faktura?.Naglowek?.KodFormularza?._attributes?.kodSystemowy;
-
+  const dataUri: string = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
   let pdf: TCreatedPdf;
 
   return new Promise((resolve): void => {
@@ -37,7 +42,7 @@ export async function generateInvoice(
         pdf = generateFA2((xml as any).Faktura as Faktura2, additionalData);
         break;
       case 'FA (3)':
-        pdf = generateFA3((xml as any).Faktura as Faktura3, additionalData);
+        pdf = generateFA3((xml as any).Faktura as Faktura3, additionalData, dataUri, file.name, file.lastModified);
         break;
     }
     switch (formatType) {
