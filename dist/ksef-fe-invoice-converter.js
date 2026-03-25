@@ -42003,7 +42003,7 @@ function fE(h) {
       return u.push(p.no ?? ""), iA ? p.taxRateString ? u.push(p.taxRateString) : gt(h.Fa?.P_13_5) ? u.push("OSS") : u.push("") : Pe(h.Fa?.P_14_5) && u.push("OSS"), DA && u.push(Fe(p.net, GA.Currency)), iA ? u.push(Fe(p.tax, GA.Currency)) : Pe(h.Fa?.P_14_5) && u.push(gt(h.Fa?.P_14_5) ?? ""), DA && u.push(Fe(p.gross, GA.Currency)), gA && u.push(Fe(p.taxPLN, GA.Currency)), u;
     }), B.length > 0) {
       const p = [];
-      (iA || Pe(h.Fa?.P_14_5)) && (p.push(""), p.push({ text: "Razem:", style: GA.GrayBoldTitle })), DA && p.push(Fe(Qt(e).toFixed(2), GA.Currency)), (iA || Pe(h.Fa?.P_14_5)) && p.push(Fe(Qt(o).toFixed(2), GA.Currency)), DA && p.push(Fe(Qt(y).toFixed(2), GA.Currency)), gA && p.push(Fe(Qt(d).toFixed(2), GA.Currency)), HA.push(p);
+      (iA || Pe(h.Fa?.P_14_5)) && (p.push(""), p.push({ text: "Razem", style: GA.SubHeaderContent })), DA && p.push(Fe(Qt(e).toFixed(2), GA.Currency)), (iA || Pe(h.Fa?.P_14_5)) && p.push(Fe(Qt(o).toFixed(2), GA.Currency)), DA && p.push(Fe(Qt(y).toFixed(2), GA.Currency)), gA && p.push(Fe(Qt(d).toFixed(2), GA.Currency)), HA.push(p);
     }
   }
   return ee.table.body = [[...b], ...HA], ee.table.widths = [...Y], HA.length ? Qr([...dt("Podsumowanie stawek podatku", [0, 0, 0, 8]), ee], !1) : [];
