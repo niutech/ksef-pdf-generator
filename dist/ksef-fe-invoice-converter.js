@@ -45611,6 +45611,8 @@ export {
   N as FormatTyp,
   Rt as Position,
   NE as generateDokumentUPO,
+  lw as generateFA1,
+  Hw as generateFA2,
   wE as generateFA3,
   bE as generateFARR,
   GE as generateInvoice,
