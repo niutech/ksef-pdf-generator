@@ -1,12 +1,14 @@
-// import { generateFA1 } from './FA1-generator';
-// import { Faktura as Faktura1 } from './types/fa1.types';
-// import { generateFA2 } from './FA2-generator';
-// import { Faktura as Faktura2 } from './types/fa2.types';
+import { generateFA1 } from './FA1-generator';
+import { Faktura as Faktura1 } from './types/fa1.types';
+import { generateFA2 } from './FA2-generator';
+import { Faktura as Faktura2 } from './types/fa2.types';
 import { generateFA3 } from './FA3-generator';
 import { Faktura as Faktura3 } from './types/fa3.types';
 import { parseXML } from '../shared/XML-parser';
 import { TCreatedPdf } from 'pdfmake/build/pdfmake';
 import { AdditionalDataTypes } from './types/common.types';
+import { generateFARR } from './FARR-generator';
+import { FaRR } from './types/FaRR.types';
 
 export async function generateInvoice(
   file: File,
@@ -24,7 +26,7 @@ export async function generateInvoice(
   formatType: FormatType = 'blob'
 ): Promise<FormatTypeResult> {
   const xml: unknown = await parseXML(file);
-//  const wersja: any = (xml as any)?.Faktura?.Naglowek?.KodFormularza?._attributes?.kodSystemowy;
+  const wersja: any = (xml as any)?.Faktura?.Naglowek?.KodFormularza?._attributes?.kodSystemowy;
   const dataUri: string = await new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result as string);
@@ -34,17 +36,22 @@ export async function generateInvoice(
   let pdf: TCreatedPdf;
 
   return new Promise((resolve): void => {
-//    switch (wersja) {
-//      case 'FA (1)':
-//        pdf = generateFA1((xml as any).Faktura as Faktura1, additionalData);
-//        break;
-//      case 'FA (2)':
-//        pdf = generateFA2((xml as any).Faktura as Faktura2, additionalData);
-//        break;
-//      case 'FA (3)':
-    pdf = generateFA3((xml as any).Faktura as Faktura3, additionalData, dataUri, file.name, file.lastModified);
-//        break;
-//    }
+    switch (wersja) {
+      case 'FA (1)':
+        pdf = generateFA1((xml as any).Faktura as Faktura1, additionalData);
+        break;
+      case 'FA (2)':
+        pdf = generateFA2((xml as any).Faktura as Faktura2, additionalData);
+        break;
+      case 'FA (3)':
+        pdf = generateFA3((xml as any).Faktura as Faktura3, additionalData, dataUri, file.name, file.lastModified);
+        break;
+      case 'FA_RR (1)':
+      case 'FA_RR(1)':
+        pdf = generateFARR((xml as any).Faktura as FaRR, additionalData, dataUri, file.name, file.lastModified);
+        break;
+    }
+
     switch (formatType) {
       case 'blob':
         pdf.getBlob().then((blob: Blob): void => {

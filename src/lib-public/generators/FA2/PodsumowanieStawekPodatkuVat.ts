@@ -1,4 +1,4 @@
-import { Content, ContentTable } from 'pdfmake/interfaces';
+import { Content, ContentTable, TableCell } from 'pdfmake/interfaces';
 import {
   createHeader,
   createSection,
@@ -10,7 +10,7 @@ import {
 import FormatTyp from '../../../shared/enums/common.enum';
 import { Fa, Faktura, FP } from '../../types/fa2.types';
 import { TaxSummaryTypes } from '../../types/tax-summary.types';
-import { DEFAULT_TABLE_LAYOUT } from '../../../shared/consts/const';
+import { DEFAULT_TABLE_LAYOUT } from '../../../shared/consts/FA.const';
 
 export function generatePodsumowanieStawekPodatkuVat(faktura: Faktura): Content[] {
   const AnyP13P14_5Diff0: boolean =
@@ -47,12 +47,12 @@ export function generatePodsumowanieStawekPodatkuVat(faktura: Faktura): Content[
     hasValue(faktura.Fa?.P_14_3W) ||
     hasValue(faktura.Fa?.P_14_4W);
 
-  let tableBody: Content[][] = [];
+  let tableBody: TableCell[][] = [];
   const table: ContentTable = {
     table: {
       headerRows: 1,
       widths: [],
-      body: [] as Content[][],
+      body: [] as TableCell[][],
     },
     layout: DEFAULT_TABLE_LAYOUT,
   };
